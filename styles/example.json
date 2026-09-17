@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Watercolor",
+    "name_cn": "水彩",
+    "prompt": "Watercolor illustration, soft pigment washes, {prompt}",
+    "negative_prompt": ""
+  },
+  {
+    "name": "Pencil Sketch",
+    "name_cn": "铅笔素描",
+    "prompt": "Graphite pencil sketch on textured paper, {prompt}",
+    "negative_prompt": ""
+  },
+  {
+    "name": "Studio Photo",
+    "name_cn": "棚拍摄影",
+    "prompt": "Studio photograph, soft controlled lighting, {prompt}",
+    "negative_prompt": ""
+  }
+]

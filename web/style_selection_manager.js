@@ -2,7 +2,7 @@ import { app } from "/scripts/app.js";
 import { api } from "/scripts/api.js";
 
 const MODES = ["多选模式（叠加）", "单选模式", "多选模式（逐一生成）", "全选模式"];
-const KEY = "easyuse.styleFavorites.v1";
+const KEY = "styleSelectorEnhancement.favorites.v1";
 const cache = new Map();
 const instances = new Set();
 const css = document.createElement("style");
@@ -42,7 +42,7 @@ function favorites() {
 }
 async function stylesFor(name) {
     if (!cache.has(name)) {
-        const response = await api.fetchApi(`/easyuse/prompt/styles?name=${encodeURIComponent(name)}`);
+        const response = await api.fetchApi(`/style-selector-enhancement/styles?name=${encodeURIComponent(name)}`);
         if (!response.ok) throw new Error("风格库读取失败，请稍后重试");
         cache.set(name, await response.json());
     }
@@ -86,7 +86,7 @@ function attach(node) {
             if (category() !== name) return;
             const changed = loadedCategory && loadedCategory !== name;
             library = data; loadedCategory = name;
-            if (changed && mode() === "全选模式") setSelected(library.map(s => s.name));
+            if (changed) setSelected(mode() === "全选模式" ? library.map(s => s.name) : []);
             else refresh();
         } catch (e) { report(e.message); }
         finally { loading = false; }
@@ -166,7 +166,7 @@ function attach(node) {
 }
 setInterval(() => instances.forEach(s => s.tick()), 400);
 app.registerExtension({
-    name: "EasyUse.StyleSelectionManager",
-    nodeCreated(node) {if (node.comfyClass === "easy stylesSelector" || node.type === "easy stylesSelector") setTimeout(() => attach(node), 0);},
-    loadedGraphNode(node) {if (node.type === "easy stylesSelector") setTimeout(() => attach(node), 0);}
+    name: "StyleSelectorEnhancement.Manager",
+    nodeCreated(node) {if (node.comfyClass === "StyleSelectorEnhancement" || node.type === "StyleSelectorEnhancement") setTimeout(() => attach(node), 0);},
+    loadedGraphNode(node) {if (node.type === "StyleSelectorEnhancement") setTimeout(() => attach(node), 0);}
 });
